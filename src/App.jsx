@@ -1,26 +1,28 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 
-const URL_USERS = "https://jsonplaceholder.typicode.com/users";
-
 function App() {
-    const [users, setUsers] = useState([]);
+    const [count, setCount] = useState(0);
 
     console.log("Component rendered");
 
     useEffect(() => {
-        fetch(URL_USERS)
-            .then((response) => response.json())
+        console.log("Call useEffect");
+        localStorage.setItem("count", count);
+    }, [count]);
 
-            .then((data) => {
-                console.log(data);
-                setUsers(data);
-            });
+    // function handleButtonClick() {
+    //     localStorage.setItem("count", count);
+    //     setCount(count + 1);
+    // }
 
-        // .catch(error => console.log(error));
-    }, []);
-
-    return <div>{JSON.stringify(users)}</div>;
+    return (
+        <div>
+            <div>{count}</div>
+            <button onClick={() => setCount(count + 1)}>Count++</button>
+            {/* <button onClick={handleButtonClick}>Count++</button> */}
+        </div>
+    );
 }
 
 export default App;
