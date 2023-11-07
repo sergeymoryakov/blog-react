@@ -1,44 +1,53 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
-const URL_USERS = "https://jsonplaceholder.typicode.com/users";
+const mockActionItems = [
+    {
+        userId: 1,
+        id: 1,
+        title: "delectus aut autem",
+        completed: false,
+    },
+    {
+        userId: 1,
+        id: 2,
+        title: "quis ut nam facilis et officia qui",
+        completed: false,
+    },
+    {
+        userId: 1,
+        id: 3,
+        title: "fugiat veniam minus",
+        completed: false,
+    },
+];
 
 function App() {
-    const [users, setUsers] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [isError, setIsError] = useState(false);
-
-    console.log("Component rendered");
+    const [actionItems, setActionItems] = useState(null);
+    const [areActionItemsLoading, setActionItemsLoading] = useState(false);
+    const [isLoadingError, setLoadingError] = useState(false);
 
     useEffect(() => {
-        setIsError(false);
-        setIsLoading(true);
-
-        fetch(URL_USERS)
-            .then((response) => {
-                if (!response.ok) {
-                    console.log("Fetch query ERROR", response);
-                    throw new Error("Fetch query ERROR");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                console.log(data);
-                setUsers(data);
-                setIsLoading(false);
-            })
-            .catch((error) => {
-                console.log(error);
-                setIsLoading(false);
-                setIsError(true);
-            });
+        setLoadingError(false);
+        setActionItemsLoading(true);
+        setActionItems(mockActionItems);
+        setActionItemsLoading(false);
     }, []);
 
     return (
         <div>
-            {isError ? "Oops, Error while loading data..." : ""}
-            {isLoading ? "Loading" : ""}
-            {users ? JSON.stringify(users) : ""}
+            <h1>Action Items List</h1>
+
+            {isLoadingError && <p>Ooops... Loading Error</p>}
+
+            {areActionItemsLoading && <p>Loading Action Items...</p>}
+
+            <ul>
+                {actionItems &&
+                    actionItems.map((item) => (
+                        <li key={item.id}>{item.title}</li>
+                    ))}
+            </ul>
         </div>
     );
 }

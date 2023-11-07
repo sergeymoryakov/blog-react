@@ -1,0 +1,11 @@
+
+CRUD => Create + Read + Update + Delete
+
+API Users
+https://jsonplaceholder.typicode.com/users
+
+API TO_DO (Action Items):
+https://jsonplaceholder.typicode.com/todos
+
+API Documentation
+https://jsonplaceholder.typicode.com/guide/
