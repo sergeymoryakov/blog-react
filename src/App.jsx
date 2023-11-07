@@ -2,51 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { getActionItems } from "./api/action-item";
 import { getNormActionItems } from "./utils/get-norm-items";
-
-// const API_URL_ACTION_ITEMS = "https://jsonplaceholder.typicode.com/todos";
-
-// const mockActionItems = [
-//     {
-//         userId: 1,
-//         id: 1,
-//         title: "delectus aut autem",
-//         completed: false,
-//     },
-//     {
-//         userId: 1,
-//         id: 2,
-//         title: "quis ut nam facilis et officia qui",
-//         completed: false,
-//     },
-//     {
-//         userId: 1,
-//         id: 3,
-//         title: "fugiat veniam minus",
-//         completed: false,
-//     },
-// ];
-
-// const mockActionItemsId = [1, 2, 3, 4, 5];
-// const mockActionItemsById = {
-//     1: {
-//         userId: 1,
-//         id: 1,
-//         title: "delectus aut autem",
-//         completed: false,
-//     },
-//     2: {
-//         userId: 1,
-//         id: 2,
-//         title: "quis ut nam facilis et officia qui",
-//         completed: false,
-//     },
-//     3: {
-//         userId: 1,
-//         id: 3,
-//         title: "fugiat veniam minus",
-//         completed: false,
-//     },
-// };
+import ActionItem from "./components/action-items/Action-item";
 
 function App() {
     const [actionItemIds, setActionItemIds] = useState(null);
@@ -72,6 +28,10 @@ function App() {
             });
     }, []);
 
+    function handleDeleteActionItemBtnClick(id) {
+        console.log("Received command to delete element with ID: ", id);
+    }
+
     return (
         <div>
             <h1>Action Items List</h1>
@@ -83,7 +43,13 @@ function App() {
             <ul className="action-items-list">
                 {actionItemIds &&
                     actionItemIds.map((id) => (
-                        <li key={id}>{actionItemsById[id].title}</li>
+                        <ActionItem
+                            key={id}
+                            actionItem={actionItemsById[id]}
+                            onDeleteBtnClick={() =>
+                                handleDeleteActionItemBtnClick(id)
+                            }
+                        />
                     ))}
             </ul>
         </div>
