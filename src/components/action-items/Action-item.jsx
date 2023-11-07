@@ -1,9 +1,14 @@
-function ActionItem({ actionItem, onDeleteBtnClick }) {
+function ActionItem({ actionItem, onToggle, onDelete }) {
     return (
         <li>
             {" "}
             <p>{actionItem.title}</p>
-            <button onClick={onDeleteBtnClick}>Delete</button>
+            <input
+                type="checkbox"
+                checked={actionItem.completed}
+                onChange={onToggle}
+            />
+            <button onClick={onDelete}>Delete</button>
         </li>
     );
 }

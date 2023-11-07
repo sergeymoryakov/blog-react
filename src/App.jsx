@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { getActionItems } from "./api/action-item";
+import {
+    getActionItems,
+    deleteActionItem,
+    updateActionItem,
+} from "./api/api-methods";
 import { getNormActionItems } from "./utils/get-norm-items";
 import ActionItem from "./components/action-items/Action-item";
 
@@ -28,8 +32,29 @@ function App() {
             });
     }, []);
 
-    function handleDeleteActionItemBtnClick(id) {
+    function handleDeleteActionItem(id) {
         console.log("Received command to delete element with ID: ", id);
+        setActionItemIds(actionItemIds.filter((itemId) => itemId !== id));
+        deleteActionItem(id);
+    }
+
+    function handleToggleCheckboxActionItem(id) {
+        console.log(
+            "Received toggle checkbox command for element with ID: ",
+            id
+        );
+
+        const actionItem = {
+            ...actionItemsById[id],
+            completed: !actionItemsById[id].completed,
+        };
+
+        setActionItemsById({
+            ...actionItemsById,
+            [id]: actionItem,
+        });
+
+        updateActionItem(actionItem);
     }
 
     return (
@@ -46,9 +71,8 @@ function App() {
                         <ActionItem
                             key={id}
                             actionItem={actionItemsById[id]}
-                            onDeleteBtnClick={() =>
-                                handleDeleteActionItemBtnClick(id)
-                            }
+                            onToggle={() => handleToggleCheckboxActionItem(id)}
+                            onDelete={() => handleDeleteActionItem(id)}
                         />
                     ))}
             </ul>
