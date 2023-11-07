@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { getActionItems } from "./api/action-item";
-import { getNormActionItems } from "./utils/get-norm-items";
+import { getActionItems } from "../src/api/action-item";
+import { getNormActionItems } from "../src/utils/get-norm-items";
 
 // const API_URL_ACTION_ITEMS = "https://jsonplaceholder.typicode.com/todos";
 
