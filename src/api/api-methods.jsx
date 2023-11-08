@@ -10,6 +10,18 @@ export function getActionItems() {
     });
 }
 
+export function addActionItem(actionItem) {
+    return fetch(`${API_URL_BASE}/todos`, {
+        method: "POST",
+        body: JSON.stringify({
+            actionItem,
+        }),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8",
+        },
+    });
+}
+
 export function deleteActionItem(id) {
     fetch(`${API_URL_BASE}/todos/${id}`, {
         method: "DELETE",

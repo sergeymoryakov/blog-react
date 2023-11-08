@@ -4,7 +4,9 @@ import {
     getActionItems,
     deleteActionItem,
     updateActionItem,
+    addActionItem,
 } from "./api/api-methods";
+import { v4 as uuidv4 } from "uuid";
 import { getNormActionItems } from "./utils/get-norm-items";
 import ActionItem from "./components/action-items/Action-item";
 
@@ -13,6 +15,7 @@ function App() {
     const [actionItemsById, setActionItemsById] = useState();
     const [areActionItemsLoading, setActionItemsLoading] = useState(false);
     const [isLoadingError, setIsLoadingError] = useState(false);
+    const [actionItemTitle, setActionItemTitle] = useState("");
 
     useEffect(() => {
         setIsLoadingError(false);
@@ -57,6 +60,28 @@ function App() {
         updateActionItem(actionItem);
     }
 
+    function handleInputActionItemTitle(event) {
+        setActionItemTitle(event.target.value);
+    }
+
+    function handleAddNewActionItem() {
+        const id = uuidv4();
+        const actionItem = {
+            title: actionItemTitle,
+            id,
+            completed: false,
+        };
+
+        setActionItemsById({
+            ...actionItemsById,
+            [actionItem.id]: actionItem,
+        });
+
+        setActionItemIds([actionItem.id, ...actionItemIds]);
+
+        addActionItem(actionItem);
+    }
+
     return (
         <div>
             <h1>Action Items List</h1>
@@ -64,6 +89,14 @@ function App() {
             {isLoadingError && <p>Ooops... Loading Error</p>}
 
             {areActionItemsLoading && <p>Loading Action Items...</p>}
+
+            <input
+                type="text"
+                value={actionItemTitle}
+                onChange={(event) => handleInputActionItemTitle(event)}
+            />
+
+            <button onClick={handleAddNewActionItem}>Add New</button>
 
             <ul className="action-items-list">
                 {actionItemIds &&
