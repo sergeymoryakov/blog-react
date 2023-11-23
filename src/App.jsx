@@ -6,29 +6,18 @@ import {
     updateItemInFirestore,
     deleteItemFromFireStore,
 } from "./api/api-functions";
-// import {
-//     getActionItems,
-//     deleteActionItem,
-//     updateActionItem,
-//     addActionItem,
-// } from "./api/api-methods";
+import { format } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
-import {
-    // getNormActionItems,
-    getNormBlogArticles,
-} from "./utils/get-norm-items";
+import { getNormBlogArticles } from "./utils/get-norm-items";
 
 import { COLLECTION_NAME } from "./config/firebase-config";
 
 import BlogArticle from "./components/BlogArticle";
-// import ActionItem from "./components/action-items/Action-item";
 
 function App() {
     const [blogArticleIds, setBlogArticleIds] = useState(null); // New: Array of IDs
-    // const [actionItemIds, setActionItemIds] = useState(null);
 
     const [blogArticlesById, setBlogArticlesById] = useState(); // New: Object of items by ID
-    // const [actionItemsById, setActionItemsById] = useState();
 
     const [processLoading, setProcessLoading] = useState(false);
 
@@ -37,7 +26,6 @@ function App() {
     const [blogArticleTitle, setBlogArticleTitle] = useState(""); // New: State for input value
     const [blogArticleBody, setBlogArticleBody] = useState(""); // New: State for input value
     const [blogArticleSource, setBlogArticleSource] = useState(""); // New: State for input value
-    // const [actionItemTitle, setActionItemTitle] = useState("");
 
     useEffect(() => {
         setIsLoadingError(false);
@@ -63,12 +51,6 @@ function App() {
         deleteItemFromFireStore(id);
     }
 
-    // function handleDeleteActionItem(id) {
-    //     console.log("Received command to delete element with ID: ", id);
-    //     setActionItemIds(actionItemIds.filter((itemId) => itemId !== id));
-    //     deleteActionItem(id);
-    // }
-
     function handleToggleCheckboxBlogArticle(id) {
         console.log(
             "Received toggle checkbox command for element with ID: ",
@@ -85,71 +67,39 @@ function App() {
             [id]: blogArticle,
         });
 
-        // Display to console the blogArticle's id
-        console.log("blogArticle.id: ", blogArticle.id);
-
-        // Display to console the blogArticle object
-        console.log("blogArticle: ", blogArticle);
-
         updateItemInFirestore(blogArticle.id, {
             completed: blogArticle.completed,
         });
     }
 
-    // function handleToggleCheckboxActionItem(id) {
-    //     console.log(
-    //         "Received toggle checkbox command for element with ID: ",
-    //         id
-    //     );
-
-    //     const actionItem = {
-    //         ...actionItemsById[id],
-    //         completed: !actionItemsById[id].completed,
-    //     };
-
-    //     setActionItemsById({
-    //         ...actionItemsById,
-    //         [id]: actionItem,
-    //     });
-
-    //     updateActionItem(actionItem);
-    // }
-
     // Handling the new blog title input
     function handleInputBlogArticleTitle(event) {
         setBlogArticleTitle(event.target.value);
-        // console.log("Title: ", event.target.value);
     }
 
     // Handling the new blog body text input
     function handleInputBlogArticleBody(event) {
         setBlogArticleBody(event.target.value);
-        // console.log("Body: ", event.target.value);
     }
 
     // Handling the new blog source input
     function handleInputBlogArticleSource(event) {
         setBlogArticleSource(event.target.value);
-        // console.log("Source: ", event.target.value);
     }
-
-    // function handleInputActionItemTitle(event) {
-    //     setActionItemTitle(event.target.value);
-    // }
 
     function handleAddNewArticle(event) {
         event.preventDefault(); // prevent the form from submitting
 
-        // For test purposes, remove in production
-        console.log("handleAddNewArticle() has been called.");
-
         const id = uuidv4();
+        // add the current date and time:
+        const date = new Date();
         const blogArticle = {
             title: blogArticleTitle,
             body: blogArticleBody,
             source: blogArticleSource,
             id,
             completed: false,
+            date,
         };
 
         setBlogArticlesById({
@@ -159,32 +109,8 @@ function App() {
 
         setBlogArticleIds([blogArticle.id, ...blogArticleIds]);
 
-        // Displey newly created blog article to console
-        console.log("blogArticle: ", blogArticle);
-
-        // am about to use the function addItemToFirestore() from api-functions.jsx
-        console.log("addItemToFirestore() is about to be called.");
-
         addItemToFirestore(blogArticle);
     }
-
-    // function handleAddNewActionItem() {
-    //     const id = uuidv4();
-    //     const actionItem = {
-    //         title: actionItemTitle,
-    //         id,
-    //         completed: false,
-    //     };
-
-    //     setActionItemsById({
-    //         ...actionItemsById,
-    //         [actionItem.id]: actionItem,
-    //     });
-
-    //     setActionItemIds([actionItem.id, ...actionItemIds]);
-
-    //     addActionItem(actionItem);
-    // }
 
     return (
         <div>
@@ -218,7 +144,6 @@ function App() {
                 <button type="submit" onClick={handleAddNewArticle}>
                     Add New Article
                 </button>
-                {/* <button onClick={handleAddNewActionItem}>Add New</button> */}
             </form>
 
             <ul className="action-items-list">
@@ -229,7 +154,6 @@ function App() {
                             blogArticle={blogArticlesById[id]}
                             onToggle={() => handleToggleCheckboxBlogArticle(id)}
                             onDelete={() => handleDeleteBlogArticle(id)}
-                            // onDelete={() => handleDeleteActionItem(id)}
                         />
                     ))}
             </ul>
