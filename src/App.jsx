@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { getItemsFromFirestore } from "./api/api-functions";
+import {
+    getItemsFromFirestore,
+    addItemToFirestore,
+    updateItemInFirestore,
+    deleteItemFromFireStore,
+} from "./api/api-functions";
 import {
     getActionItems,
     deleteActionItem,
@@ -29,6 +34,9 @@ function App() {
 
     const [isLoadingError, setIsLoadingError] = useState(false);
 
+    const [blogArticleTitle, setBlogArticleTitle] = useState(""); // New: State for input value
+    const [blogArticleBody, setBlogArticleBody] = useState(""); // New: State for input value
+    const [blogArticleSource, setBlogArticleSource] = useState(""); // New: State for input value
     const [actionItemTitle, setActionItemTitle] = useState("");
 
     useEffect(() => {
@@ -87,27 +95,76 @@ function App() {
         updateActionItem(actionItem);
     }
 
-    function handleInputActionItemTitle(event) {
-        setActionItemTitle(event.target.value);
+    // Handling the new blog title input
+    function handleInputBlogArticleTitle(event) {
+        setBlogArticleTitle(event.target.value);
+        console.log("Title: ", event.target.value);
     }
 
-    function handleAddNewActionItem() {
+    // Handling the new blog body text input
+    function handleInputBlogArticleBody(event) {
+        setBlogArticleBody(event.target.value);
+        console.log("Body: ", event.target.value);
+    }
+
+    // Handling the new blog source input
+    function handleInputBlogArticleSource(event) {
+        setBlogArticleSource(event.target.value);
+        console.log("Source: ", event.target.value);
+    }
+
+    // function handleInputActionItemTitle(event) {
+    //     setActionItemTitle(event.target.value);
+    // }
+
+    function handleAddNewArticle(event) {
+        event.preventDefault(); // prevent the form from submitting
+
+        // For test purposes, remove in production
+        console.log("handleAddNewArticle() has been called.");
+
         const id = uuidv4();
-        const actionItem = {
-            title: actionItemTitle,
+        const blogArticle = {
+            title: blogArticleTitle,
+            body: blogArticleBody,
+            source: blogArticleSource,
             id,
             completed: false,
         };
 
-        setActionItemsById({
-            ...actionItemsById,
-            [actionItem.id]: actionItem,
+        setBlogArticlesById({
+            ...blogArticlesById,
+            [blogArticle.id]: blogArticle,
         });
 
-        setActionItemIds([actionItem.id, ...actionItemIds]);
+        setBlogArticleIds([blogArticle.id, ...blogArticleIds]);
 
-        addActionItem(actionItem);
+        // Displey newly created blog article to console
+        console.log("blogArticle: ", blogArticle);
+
+        // am about to use the function addItemToFirestore() from api-functions.jsx
+        console.log("addItemToFirestore() is about to be called.");
+
+        addItemToFirestore(blogArticle);
     }
+
+    // function handleAddNewActionItem() {
+    //     const id = uuidv4();
+    //     const actionItem = {
+    //         title: actionItemTitle,
+    //         id,
+    //         completed: false,
+    //     };
+
+    //     setActionItemsById({
+    //         ...actionItemsById,
+    //         [actionItem.id]: actionItem,
+    //     });
+
+    //     setActionItemIds([actionItem.id, ...actionItemIds]);
+
+    //     addActionItem(actionItem);
+    // }
 
     return (
         <div>
@@ -117,13 +174,32 @@ function App() {
 
             {processLoading && <p>Loading Action Items...</p>}
 
-            <input
-                type="text"
-                value={actionItemTitle}
-                onChange={(event) => handleInputActionItemTitle(event)}
-            />
+            <form className="form-new-blog">
+                <input
+                    type="text"
+                    placeholder="Type Your article title here"
+                    value={blogArticleTitle}
+                    onChange={(event) => handleInputBlogArticleTitle(event)}
+                />
 
-            <button onClick={handleAddNewActionItem}>Add New</button>
+                <input
+                    type="text"
+                    placeholder="Type Your article text here"
+                    value={blogArticleBody}
+                    onChange={(event) => handleInputBlogArticleBody(event)}
+                />
+                <input
+                    type="text"
+                    placeholder="Type Your Name (Name S.) here"
+                    value={blogArticleSource}
+                    onChange={(event) => handleInputBlogArticleSource(event)}
+                />
+
+                <button type="submit" onClick={handleAddNewArticle}>
+                    Add New Article
+                </button>
+                {/* <button onClick={handleAddNewActionItem}>Add New</button> */}
+            </form>
 
             <ul className="action-items-list">
                 {blogArticleIds &&
@@ -135,17 +211,6 @@ function App() {
                             onDelete={() => handleDeleteActionItem(id)}
                         />
                     ))}
-                {
-                    // actionItemIds &&
-                    //  actionItemIds.map((id) => (
-                    // <ActionItem
-                    //     key={id}
-                    //     actionItem={actionItemsById[id]}
-                    //     onToggle={() => handleToggleCheckboxActionItem(id)}
-                    //     onDelete={() => handleDeleteActionItem(id)}
-                    // />
-                    // ))
-                }
             </ul>
         </div>
     );

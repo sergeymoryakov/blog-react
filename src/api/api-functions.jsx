@@ -16,37 +16,13 @@ import { firebaseKeys, DB_NAME } from "../config/firebase-config";
 const appFirebase = initializeApp(firebaseKeys);
 const db = getFirestore(appFirebase);
 
-// export const getItemsFromFirestore = async (COLLECTION_NAME) => {
-//     // Display to console a message that the function has been called
-//     console.log("getItemsFromFirestore() has been called.");
-
-//     const ref = collection(db, COLLECTION_NAME);
-//     const q = query(ref, orderBy("date", "desc"));
-
-//     const blogArticles = [];
-//     const querySnapshot = await getDocs(q);
-
-//     querySnapshot.forEach((doc) => {
-//         const itemDb = {};
-//         itemDb.id = doc.id;
-//         itemDb.body = doc.data().body;
-//         itemDb.date = doc.data().date;
-//         itemDb.source = doc.data().source;
-//         itemDb.title = doc.data().title;
-//         console.log(
-//             `Document "${doc.data().text}", id = "${doc.id}" have been read.`
-//         );
-//     });
-//     console.log(blogArticles);
-//     return blogArticles;
-// };
-
 export const getItemsFromFirestore = async (COLLECTION_NAME) => {
     try {
+        // For test purposes, remove in production
         console.log("getItemsFromFirestore() has been called.");
 
         // Display to console 'firebaseKeys, DB_NAME, COLLECTION_NAME'
-        console.log(firebaseKeys, DB_NAME, COLLECTION_NAME);
+        // console.log(firebaseKeys, DB_NAME, COLLECTION_NAME);
 
         const ref = collection(db, COLLECTION_NAME);
         const q = query(ref, orderBy("date", "desc"));
@@ -63,7 +39,7 @@ export const getItemsFromFirestore = async (COLLECTION_NAME) => {
             itemDb.title = doc.data().title;
             blogArticles.push(itemDb); // push the itemDb object into the blogArticles array
             console.log(
-                `Document "${doc.data().text}", id = "${
+                `Document from "${doc.data().source}", id = "${
                     doc.id
                 }" have been read.`
             );
@@ -76,6 +52,9 @@ export const getItemsFromFirestore = async (COLLECTION_NAME) => {
 };
 
 export const addItemToFirestore = async (item) => {
+    // For test purposes, remove in production
+    console.log(`addItemToFirestore() has been called for item: ${item}`);
+
     try {
         const docRef = doc(db, DB_NAME, item.id); // Use the UUID as the doc id
         await setDoc(docRef, item);
