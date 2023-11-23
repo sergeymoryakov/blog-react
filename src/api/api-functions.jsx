@@ -27,8 +27,8 @@ export const getItemsFromFirestore = async (COLLECTION_NAME) => {
         const ref = collection(db, COLLECTION_NAME);
 
         // Option: Sort the items by date, descending:
-        // const q = query(ref, orderBy("date", "desc"));
-        const q = query(ref);
+        const q = query(ref, orderBy("date", "desc"));
+        // const q = query(ref);
 
         const blogArticles = [];
         const querySnapshot = await getDocs(q);
