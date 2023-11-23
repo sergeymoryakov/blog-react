@@ -57,11 +57,17 @@ function App() {
             });
     }, []);
 
-    function handleDeleteActionItem(id) {
+    function handleDeleteBlogArticle(id) {
         console.log("Received command to delete element with ID: ", id);
-        setActionItemIds(actionItemIds.filter((itemId) => itemId !== id));
-        deleteActionItem(id);
+        setBlogArticleIds(blogArticleIds.filter((itemId) => itemId !== id));
+        deleteItemFromFireStore(id);
     }
+
+    // function handleDeleteActionItem(id) {
+    //     console.log("Received command to delete element with ID: ", id);
+    //     setActionItemIds(actionItemIds.filter((itemId) => itemId !== id));
+    //     deleteActionItem(id);
+    // }
 
     function handleToggleCheckboxBlogArticle(id) {
         console.log(
@@ -90,24 +96,24 @@ function App() {
         });
     }
 
-    function handleToggleCheckboxActionItem(id) {
-        console.log(
-            "Received toggle checkbox command for element with ID: ",
-            id
-        );
+    // function handleToggleCheckboxActionItem(id) {
+    //     console.log(
+    //         "Received toggle checkbox command for element with ID: ",
+    //         id
+    //     );
 
-        const actionItem = {
-            ...actionItemsById[id],
-            completed: !actionItemsById[id].completed,
-        };
+    //     const actionItem = {
+    //         ...actionItemsById[id],
+    //         completed: !actionItemsById[id].completed,
+    //     };
 
-        setActionItemsById({
-            ...actionItemsById,
-            [id]: actionItem,
-        });
+    //     setActionItemsById({
+    //         ...actionItemsById,
+    //         [id]: actionItem,
+    //     });
 
-        updateActionItem(actionItem);
-    }
+    //     updateActionItem(actionItem);
+    // }
 
     // Handling the new blog title input
     function handleInputBlogArticleTitle(event) {
@@ -222,7 +228,8 @@ function App() {
                             key={id}
                             blogArticle={blogArticlesById[id]}
                             onToggle={() => handleToggleCheckboxBlogArticle(id)}
-                            onDelete={() => handleDeleteActionItem(id)}
+                            onDelete={() => handleDeleteBlogArticle(id)}
+                            // onDelete={() => handleDeleteActionItem(id)}
                         />
                     ))}
             </ul>
