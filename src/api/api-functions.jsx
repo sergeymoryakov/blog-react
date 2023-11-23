@@ -25,7 +25,10 @@ export const getItemsFromFirestore = async (COLLECTION_NAME) => {
         // console.log(firebaseKeys, DB_NAME, COLLECTION_NAME);
 
         const ref = collection(db, COLLECTION_NAME);
-        const q = query(ref, orderBy("date", "desc"));
+
+        // Option: Sort the items by date, descending:
+        // const q = query(ref, orderBy("date", "desc"));
+        const q = query(ref);
 
         const blogArticles = [];
         const querySnapshot = await getDocs(q);
@@ -37,12 +40,15 @@ export const getItemsFromFirestore = async (COLLECTION_NAME) => {
             itemDb.date = doc.data().date;
             itemDb.source = doc.data().source;
             itemDb.title = doc.data().title;
+            itemDb.completed = doc.data().completed;
             blogArticles.push(itemDb); // push the itemDb object into the blogArticles array
-            console.log(
-                `Document from "${doc.data().source}", id = "${
-                    doc.id
-                }" have been read.`
-            );
+
+            // Display to console the document id and source
+            // console.log(
+            //     `Document from "${doc.data().source}", id = "${
+            //         doc.id
+            //     }" have been read.`
+            // );
         });
         console.log(blogArticles);
         return blogArticles;

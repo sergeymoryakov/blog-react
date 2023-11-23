@@ -55,25 +55,39 @@ function App() {
                 setIsLoadingError(true);
                 setProcessLoading(false);
             });
-
-        // getActionItems()
-        //     .then((actionItems) => {
-        //         const [ids, byId] = getNormActionItems(actionItems);
-
-        //         setProcessLoading(false);
-        //         setActionItemIds(ids);
-        //         setActionItemsById(byId);
-        //     })
-        //     .catch(() => {
-        //         setIsLoadingError(true);
-        //         setProcessLoading(false);
-        //     });
     }, []);
 
     function handleDeleteActionItem(id) {
         console.log("Received command to delete element with ID: ", id);
         setActionItemIds(actionItemIds.filter((itemId) => itemId !== id));
         deleteActionItem(id);
+    }
+
+    function handleToggleCheckboxBlogArticle(id) {
+        console.log(
+            "Received toggle checkbox command for element with ID: ",
+            id
+        );
+
+        const blogArticle = {
+            ...blogArticlesById[id],
+            completed: !blogArticlesById[id].completed,
+        };
+
+        setBlogArticlesById({
+            ...blogArticlesById,
+            [id]: blogArticle,
+        });
+
+        // Display to console the blogArticle's id
+        console.log("blogArticle.id: ", blogArticle.id);
+
+        // Display to console the blogArticle object
+        console.log("blogArticle: ", blogArticle);
+
+        updateItemInFirestore(blogArticle.id, {
+            completed: blogArticle.completed,
+        });
     }
 
     function handleToggleCheckboxActionItem(id) {
@@ -98,19 +112,19 @@ function App() {
     // Handling the new blog title input
     function handleInputBlogArticleTitle(event) {
         setBlogArticleTitle(event.target.value);
-        console.log("Title: ", event.target.value);
+        // console.log("Title: ", event.target.value);
     }
 
     // Handling the new blog body text input
     function handleInputBlogArticleBody(event) {
         setBlogArticleBody(event.target.value);
-        console.log("Body: ", event.target.value);
+        // console.log("Body: ", event.target.value);
     }
 
     // Handling the new blog source input
     function handleInputBlogArticleSource(event) {
         setBlogArticleSource(event.target.value);
-        console.log("Source: ", event.target.value);
+        // console.log("Source: ", event.target.value);
     }
 
     // function handleInputActionItemTitle(event) {
@@ -207,7 +221,7 @@ function App() {
                         <BlogArticle
                             key={id}
                             blogArticle={blogArticlesById[id]}
-                            onToggle={() => handleToggleCheckboxActionItem(id)}
+                            onToggle={() => handleToggleCheckboxBlogArticle(id)}
                             onDelete={() => handleDeleteActionItem(id)}
                         />
                     ))}
