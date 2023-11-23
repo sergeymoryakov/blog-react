@@ -6,29 +6,29 @@ import {
     updateItemInFirestore,
     deleteItemFromFireStore,
 } from "./api/api-functions";
-import {
-    getActionItems,
-    deleteActionItem,
-    updateActionItem,
-    addActionItem,
-} from "./api/api-methods";
+// import {
+//     getActionItems,
+//     deleteActionItem,
+//     updateActionItem,
+//     addActionItem,
+// } from "./api/api-methods";
 import { v4 as uuidv4 } from "uuid";
 import {
-    getNormActionItems,
+    // getNormActionItems,
     getNormBlogArticles,
 } from "./utils/get-norm-items";
 
 import { COLLECTION_NAME } from "./config/firebase-config";
 
 import BlogArticle from "./components/BlogArticle";
-import ActionItem from "./components/action-items/Action-item";
+// import ActionItem from "./components/action-items/Action-item";
 
 function App() {
     const [blogArticleIds, setBlogArticleIds] = useState(null); // New: Array of IDs
-    const [actionItemIds, setActionItemIds] = useState(null);
+    // const [actionItemIds, setActionItemIds] = useState(null);
 
     const [blogArticlesById, setBlogArticlesById] = useState(); // New: Object of items by ID
-    const [actionItemsById, setActionItemsById] = useState();
+    // const [actionItemsById, setActionItemsById] = useState();
 
     const [processLoading, setProcessLoading] = useState(false);
 
@@ -37,7 +37,7 @@ function App() {
     const [blogArticleTitle, setBlogArticleTitle] = useState(""); // New: State for input value
     const [blogArticleBody, setBlogArticleBody] = useState(""); // New: State for input value
     const [blogArticleSource, setBlogArticleSource] = useState(""); // New: State for input value
-    const [actionItemTitle, setActionItemTitle] = useState("");
+    // const [actionItemTitle, setActionItemTitle] = useState("");
 
     useEffect(() => {
         setIsLoadingError(false);
