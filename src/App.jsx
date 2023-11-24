@@ -13,6 +13,7 @@ import { getNormBlogArticles } from "./utils/get-norm-items";
 
 import { COLLECTION_NAME } from "./config/firebase-config";
 
+import InputField from "./components/InputField/InputField";
 import BlogArticle from "./components/BlogArticle";
 
 function App() {
@@ -113,39 +114,58 @@ function App() {
         addItemToFirestore(blogArticle);
     }
 
+    function handleNewArticleEntry() {
+        // setBlogArticleTitle("");
+        // setBlogArticleBody("");
+        // setBlogArticleSource("");
+    }
+
     return (
         <div>
-            <h1>Funny Blog</h1>
+            <h1>Fake Digital News Blog</h1>
 
             {isLoadingError && <p>Ooops... Loading Error</p>}
 
             {processLoading && <p>Loading Action Items...</p>}
 
             <form className="form-new-blog">
-                <input
+                <InputField
                     type="text"
                     placeholder="Type Your article title here"
                     value={blogArticleTitle}
                     onChange={(event) => handleInputBlogArticleTitle(event)}
+                    maxLength={250}
+                    required
+                    className="title-input"
                 />
 
-                <input
-                    type="text"
+                <InputField
+                    type="textarea"
                     placeholder="Type Your article text here"
                     value={blogArticleBody}
                     onChange={(event) => handleInputBlogArticleBody(event)}
+                    maxLength={3000}
+                    required
+                    className="body-input"
                 />
-                <input
+
+                <InputField
                     type="text"
                     placeholder="Type Your Name (Name S.) here"
                     value={blogArticleSource}
                     onChange={(event) => handleInputBlogArticleSource(event)}
+                    className="source-input"
                 />
 
                 <button type="submit" onClick={handleAddNewArticle}>
                     Add New Article
                 </button>
             </form>
+
+            <h2>Like to add a new article?</h2>
+            <button type="submit" onClick={handleNewArticleEntry}>
+                Add New Article
+            </button>
 
             <ul className="action-items-list">
                 {blogArticleIds &&

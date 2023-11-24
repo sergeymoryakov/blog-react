@@ -1,0 +1,17 @@
+.title-input,
+.body-input,
+.source-input {
+    width: 100%;
+}
+
+.title-input {
+    border: 1px solid #ccc;
+}
+
+.body-input {
+    border: 1px solid #ccc;
+}
+
+.source-input {
+    border: 1px solid #ccc;
+}
