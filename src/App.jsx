@@ -14,7 +14,8 @@ import { getNormBlogArticles } from "./utils/get-norm-items";
 import { COLLECTION_NAME } from "./config/firebase-config";
 
 import InputField from "./components/InputField/InputField";
-import BlogArticle from "./components/BlogArticle";
+import BlogArticle from "./components/BlogArticle/BlogArticle";
+import FormModal from "./components/FormModal/FormModal";
 
 function App() {
     const [blogArticleIds, setBlogArticleIds] = useState(null); // New: Array of IDs
@@ -28,6 +29,8 @@ function App() {
     const [blogArticleTitle, setBlogArticleTitle] = useState(""); // New: State for input value
     const [blogArticleBody, setBlogArticleBody] = useState(""); // New: State for input value
     const [blogArticleSource, setBlogArticleSource] = useState(""); // New: State for input value
+
+    const [isFormVisible, setIsFormVisible] = useState(false);
 
     useEffect(() => {
         setIsLoadingError(false);
@@ -112,12 +115,13 @@ function App() {
         setBlogArticleIds([blogArticle.id, ...blogArticleIds]);
 
         addItemToFirestore(blogArticle);
+
+        // Reset the input fields to close the modal form
+        setIsFormVisible(false);
     }
 
     function handleNewArticleEntry() {
-        // setBlogArticleTitle("");
-        // setBlogArticleBody("");
-        // setBlogArticleSource("");
+        setIsFormVisible(true);
     }
 
     return (
@@ -128,43 +132,58 @@ function App() {
 
             {processLoading && <p>Loading Action Items...</p>}
 
-            <form className="form-new-blog">
-                <InputField
-                    type="text"
-                    placeholder="Type Your article title here"
-                    value={blogArticleTitle}
-                    onChange={(event) => handleInputBlogArticleTitle(event)}
-                    maxLength={250}
-                    required
-                    className="title-input"
-                />
+            {isFormVisible && (
+                <div className="form-modal">
+                    <FormModal
+                        isVisible={isFormVisible}
+                        onClose={() => setIsFormVisible(false)}
+                    >
+                        <form className="form-new-blog">
+                            <InputField
+                                type="text"
+                                placeholder="Type Your article title here"
+                                value={blogArticleTitle}
+                                onChange={(event) =>
+                                    handleInputBlogArticleTitle(event)
+                                }
+                                maxLength={250}
+                                required
+                                className="title-input"
+                            />
 
-                <InputField
-                    type="textarea"
-                    placeholder="Type Your article text here"
-                    value={blogArticleBody}
-                    onChange={(event) => handleInputBlogArticleBody(event)}
-                    maxLength={3000}
-                    required
-                    className="body-input"
-                />
+                            <InputField
+                                type="textarea"
+                                placeholder="Type Your article text here"
+                                value={blogArticleBody}
+                                onChange={(event) =>
+                                    handleInputBlogArticleBody(event)
+                                }
+                                maxLength={3000}
+                                required
+                                className="body-input"
+                            />
 
-                <InputField
-                    type="text"
-                    placeholder="Type Your Name (Name S.) here"
-                    value={blogArticleSource}
-                    onChange={(event) => handleInputBlogArticleSource(event)}
-                    className="source-input"
-                />
+                            <InputField
+                                type="text"
+                                placeholder="Type Your Name (Name S.) here"
+                                value={blogArticleSource}
+                                onChange={(event) =>
+                                    handleInputBlogArticleSource(event)
+                                }
+                                className="source-input"
+                            />
 
-                <button type="submit" onClick={handleAddNewArticle}>
-                    Add New Article
-                </button>
-            </form>
+                            <button type="submit" onClick={handleAddNewArticle}>
+                                Add New Article
+                            </button>
+                        </form>
+                    </FormModal>
+                </div>
+            )}
 
-            <h2>Like to add a new article?</h2>
+            <h2>Would you like to share your story?</h2>
             <button type="submit" onClick={handleNewArticleEntry}>
-                Add New Article
+                Contribute
             </button>
 
             <ul className="action-items-list">
