@@ -31,6 +31,7 @@ function App() {
     const [blogArticleSource, setBlogArticleSource] = useState(""); // New: State for input value
 
     const [isFormVisible, setIsFormVisible] = useState(false);
+    const [isRecycleBinVisible, setIsRecycleBinVisible] = useState(false);
 
     useEffect(() => {
         setIsLoadingError(false);
@@ -124,13 +125,48 @@ function App() {
         setIsFormVisible(true);
     }
 
+    function handleDisplayRecycleBin() {
+        setIsRecycleBinVisible(true);
+    }
+
     return (
         <div>
-            <h1>Fake Digital News Blog</h1>
+            <h1>Fake Digital News</h1>
 
             {isLoadingError && <p>Ooops... Loading Error</p>}
 
             {processLoading && <p>Loading Action Items...</p>}
+
+            {isRecycleBinVisible && (
+                <div className="recycle-modal">
+                    <FormModal
+                        isVisible={isRecycleBinVisible}
+                        onClose={() => setIsRecycleBinVisible(false)}
+                    >
+                        <ul className="recycle-bin-list">
+                            {blogArticleIds &&
+                                blogArticleIds
+                                    .filter(
+                                        (id) => blogArticlesById[id].completed
+                                    )
+                                    .map((id) => (
+                                        <BlogArticle
+                                            key={id}
+                                            blogArticle={blogArticlesById[id]}
+                                            onToggle={() =>
+                                                handleToggleCheckboxBlogArticle(
+                                                    id
+                                                )
+                                            }
+                                            onDelete={() =>
+                                                handleDeleteBlogArticle(id)
+                                            }
+                                        />
+                                    ))}
+                        </ul>
+                    </FormModal>
+                </div>
+            )}
 
             {isFormVisible && (
                 <div className="form-modal">
@@ -181,22 +217,30 @@ function App() {
                 </div>
             )}
 
+            <ul className="blog-articles-list">
+                {blogArticleIds &&
+                    blogArticleIds
+                        .filter((id) => !blogArticlesById[id].completed)
+                        .map((id) => (
+                            <BlogArticle
+                                key={id}
+                                blogArticle={blogArticlesById[id]}
+                                onToggle={() =>
+                                    handleToggleCheckboxBlogArticle(id)
+                                }
+                                onDelete={() => handleDeleteBlogArticle(id)}
+                            />
+                        ))}
+            </ul>
+
             <h2>Would you like to share your story?</h2>
             <button type="submit" onClick={handleNewArticleEntry}>
                 Contribute
             </button>
 
-            <ul className="action-items-list">
-                {blogArticleIds &&
-                    blogArticleIds.map((id) => (
-                        <BlogArticle
-                            key={id}
-                            blogArticle={blogArticlesById[id]}
-                            onToggle={() => handleToggleCheckboxBlogArticle(id)}
-                            onDelete={() => handleDeleteBlogArticle(id)}
-                        />
-                    ))}
-            </ul>
+            <button type="submit" onClick={handleDisplayRecycleBin}>
+                Display Recycle Bin
+            </button>
         </div>
     );
 }

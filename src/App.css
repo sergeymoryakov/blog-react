@@ -42,8 +42,11 @@
 }
 
 /* CUSTOM CHANGES */
+.recycle-bin-list li {
+    text-align: left;
+}
 
-.action-items-list li {
+.blog-articles-list li {
     text-align: left;
 }
 
