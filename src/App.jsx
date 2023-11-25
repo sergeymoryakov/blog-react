@@ -7,7 +7,6 @@ import {
     deleteItemFromFireStore,
 } from "./api/api-functions";
 
-// import { format } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
 import { getNormBlogArticles } from "./utils/get-norm-items";
 
@@ -18,17 +17,17 @@ import BlogArticle from "./components/BlogArticle/BlogArticle";
 import FormModal from "./components/FormModal/FormModal";
 
 function App() {
-    const [blogArticleIds, setBlogArticleIds] = useState(null); // New: Array of IDs
+    const [blogArticleIds, setBlogArticleIds] = useState(null);
 
-    const [blogArticlesById, setBlogArticlesById] = useState(); // New: Object of items by ID
+    const [blogArticlesById, setBlogArticlesById] = useState();
 
     const [processLoading, setProcessLoading] = useState(false);
 
     const [isLoadingError, setIsLoadingError] = useState(false);
 
-    const [blogArticleTitle, setBlogArticleTitle] = useState(""); // New: State for input value
-    const [blogArticleBody, setBlogArticleBody] = useState(""); // New: State for input value
-    const [blogArticleSource, setBlogArticleSource] = useState(""); // New: State for input value
+    const [blogArticleTitle, setBlogArticleTitle] = useState("");
+    const [blogArticleBody, setBlogArticleBody] = useState("");
+    const [blogArticleSource, setBlogArticleSource] = useState("");
 
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [isRecycleBinVisible, setIsRecycleBinVisible] = useState(false);
@@ -130,8 +129,23 @@ function App() {
     }
 
     return (
-        <div>
-            <h1>Fake Digital News</h1>
+        <>
+            <div className="header">
+                <div className="header_title">
+                    <h1>Fake News</h1>
+                    {/* <p>by SEPPO.digital</p> */}
+                    <a
+                        href="https://sergeymoryakov.github.io/seppo-digital/"
+                        target="_blank"
+                    >
+                        by SEPPO.digital
+                    </a>
+                </div>
+                <div className="header_date">
+                    <p>date now</p>
+                    <p>time now</p>
+                </div>
+            </div>
 
             {isLoadingError && <p>Ooops... Loading Error</p>}
 
@@ -241,7 +255,7 @@ function App() {
             <button type="submit" onClick={handleDisplayRecycleBin}>
                 Display Recycle Bin
             </button>
-        </div>
+        </>
     );
 }
 
