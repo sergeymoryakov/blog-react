@@ -26,7 +26,7 @@ body {
 
 #root {
     margin: 0 auto;
-    min-height: 100svh;
+    /* min-height: 100svh; */
     max-width: 540px;
     /* display: flex; */
     /* flex-direction: column; */
@@ -41,5 +41,12 @@ h3 {
     font-size: 1.2rem;
     font-weight: 700;
     line-height: 1.2rem;
+    /* color: var(--clr-almost-white); */
+}
+
+p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 400;
     /* color: var(--clr-almost-white); */
 }

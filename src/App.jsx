@@ -14,6 +14,7 @@ import { COLLECTION_NAME } from "./config/firebase-config";
 
 import InputField from "./components/InputField/InputField";
 import BlogArticle from "./components/BlogArticle/BlogArticle";
+import BlogArticleActive from "./components/BlogArticle/BlogArticleActive";
 import FormModal from "./components/FormModal/FormModal";
 
 function App() {
@@ -29,8 +30,9 @@ function App() {
     const [blogArticleBody, setBlogArticleBody] = useState("");
     const [blogArticleSource, setBlogArticleSource] = useState("");
 
+    const [isAdminMode, setIsAdminMode] = useState(false);
     const [isFormVisible, setIsFormVisible] = useState(false);
-    const [isRecycleBinVisible, setIsRecycleBinVisible] = useState(false);
+    const [isHiddenVisible, setIsHiddenVisible] = useState(false);
 
     useEffect(() => {
         setIsLoadingError(false);
@@ -124,8 +126,12 @@ function App() {
         setIsFormVisible(true);
     }
 
-    function handleDisplayRecycleBin() {
-        setIsRecycleBinVisible(true);
+    function handleDisplayHiddenArticles() {
+        setIsHiddenVisible(true);
+    }
+
+    function toggleAdminMode() {
+        setIsAdminMode(!isAdminMode);
     }
 
     return (
@@ -150,37 +156,6 @@ function App() {
             {isLoadingError && <p>Ooops... Loading Error</p>}
 
             {processLoading && <p>Loading Action Items...</p>}
-
-            {isRecycleBinVisible && (
-                <div className="recycle-modal">
-                    <FormModal
-                        isVisible={isRecycleBinVisible}
-                        onClose={() => setIsRecycleBinVisible(false)}
-                    >
-                        <ul className="recycle-bin-list">
-                            {blogArticleIds &&
-                                blogArticleIds
-                                    .filter(
-                                        (id) => blogArticlesById[id].completed
-                                    )
-                                    .map((id) => (
-                                        <BlogArticle
-                                            key={id}
-                                            blogArticle={blogArticlesById[id]}
-                                            onToggle={() =>
-                                                handleToggleCheckboxBlogArticle(
-                                                    id
-                                                )
-                                            }
-                                            onDelete={() =>
-                                                handleDeleteBlogArticle(id)
-                                            }
-                                        />
-                                    ))}
-                        </ul>
-                    </FormModal>
-                </div>
-            )}
 
             {isFormVisible && (
                 <div className="form-modal">
@@ -231,42 +206,112 @@ function App() {
                 </div>
             )}
 
-            <ul className="list-blog-articles">
-                {blogArticleIds &&
-                    blogArticleIds
-                        .filter((id) => !blogArticlesById[id].completed)
-                        .map((id) => (
-                            <BlogArticle
-                                key={id}
-                                blogArticle={blogArticlesById[id]}
-                                onToggle={() =>
-                                    handleToggleCheckboxBlogArticle(id)
-                                }
-                                onDelete={() => handleDeleteBlogArticle(id)}
-                            />
-                        ))}
-            </ul>
+            {!isAdminMode && (
+                <>
+                    <ul className="list-blog-articles">
+                        {blogArticleIds &&
+                            blogArticleIds
+                                .filter((id) => !blogArticlesById[id].completed)
+                                .map((id) => (
+                                    <BlogArticle
+                                        key={id}
+                                        blogArticle={blogArticlesById[id]}
+                                        onToggle={() =>
+                                            handleToggleCheckboxBlogArticle(id)
+                                        }
+                                        onDelete={() =>
+                                            handleDeleteBlogArticle(id)
+                                        }
+                                    />
+                                ))}
+                    </ul>
+                    <div>
+                        <h3>Would you like to share your story?</h3>
+                        <button onClick={toggleAdminMode}>
+                            Access Admin Mode
+                        </button>
+                    </div>
+                </>
+            )}
+
+            {isAdminMode && (
+                <>
+                    <ul className="list-blog-articles">
+                        {blogArticleIds &&
+                            blogArticleIds
+                                .filter((id) => !blogArticlesById[id].completed)
+                                .map((id) => (
+                                    <BlogArticleActive
+                                        key={id}
+                                        blogArticle={blogArticlesById[id]}
+                                        onToggle={() =>
+                                            handleToggleCheckboxBlogArticle(id)
+                                        }
+                                        onDelete={() =>
+                                            handleDeleteBlogArticle(id)
+                                        }
+                                    />
+                                ))}
+                    </ul>
+                    <div>
+                        <h3>Back to User mode?</h3>
+                        <button onClick={toggleAdminMode}>
+                            Back to User Mode
+                        </button>
+                    </div>
+                </>
+            )}
+
+            {isHiddenVisible && (
+                <div className="recycle-modal">
+                    <FormModal
+                        isVisible={isHiddenVisible}
+                        onClose={() => setIsHiddenVisible(false)}
+                    >
+                        <ul className="recycle-bin-list">
+                            {blogArticleIds &&
+                                blogArticleIds
+                                    .filter(
+                                        (id) => blogArticlesById[id].completed
+                                    )
+                                    .map((id) => (
+                                        <BlogArticle
+                                            key={id}
+                                            blogArticle={blogArticlesById[id]}
+                                            onToggle={() =>
+                                                handleToggleCheckboxBlogArticle(
+                                                    id
+                                                )
+                                            }
+                                            onDelete={() =>
+                                                handleDeleteBlogArticle(id)
+                                            }
+                                        />
+                                    ))}
+                        </ul>
+                    </FormModal>
+                </div>
+            )}
+
+            <button type="submit" onClick={handleNewArticleEntry}>
+                Add New Article
+            </button>
+            <button type="submit" onClick={handleDisplayHiddenArticles}>
+                Display Hidden Articles
+            </button>
 
             <div className="footer">
-                <div className="footer_new-article">
-                    <h3>Would you like to share your story?</h3>
-                    <button type="submit" onClick={handleNewArticleEntry}>
-                        Create
-                    </button>
-                </div>
-                <button type="submit" onClick={handleDisplayRecycleBin}>
-                    Display Hidden Articles
-                </button>
                 <div className="footer_agreement">
-                    <h3>Two-Point Agreement</h3>
-                    <p>Fake News readers and staff:</p>
+                    <h3>Agreement of Disagreement</h3>
+                    <p>Users and creators of the Fake News engine:</p>
                     <p>
-                        1) agree that they do not agree with the content and
-                        form of some published materials;
+                        a) agree that they disagree with the way how some media
+                        depict some events, which may be inappropriate and even
+                        offensive,
                     </p>
                     <p>
-                        2) agree that such materials can and should appear here
-                        for the sake of completeness.
+                        b) agree that such a content must be present here for
+                        the sake of comprehensiveness.
                     </p>
                 </div>
             </div>

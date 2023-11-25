@@ -1,8 +1,9 @@
-# React + Vite
+Fake News Engine prototype to practice React.JS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+You may easily add your own story by entering Admin Mode.
 
-Currently, two official plugins are available:
+Creators keep their right to modify or delete unupropriate content is required.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Design ideas: https://thetruestory.news/en
+
+Developed by Seppo.digital

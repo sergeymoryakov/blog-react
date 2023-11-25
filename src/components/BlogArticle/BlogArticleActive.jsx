@@ -29,6 +29,17 @@ function BlogArticle({ blogArticle, onToggle, onDelete }) {
                 <p>by {blogArticle.source}</p>
                 <p>{date}</p>
             </div>
+            {/* <label>
+                <input
+                    type="checkbox"
+                    name="hidden"
+                    checked={blogArticle.completed}
+                    onChange={onToggle}
+                />
+                Hide article
+            </label> */}
+            <button onClick={onToggle}>Hide article</button>
+            {/* <button onClick={onDelete}>Delete</button> */}
         </li>
     );
 }
