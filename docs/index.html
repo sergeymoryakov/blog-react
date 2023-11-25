@@ -2,11 +2,15 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+        <link
+            rel="icon"
+            type="image/svg+xml"
+            href="data:image/png;base64,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"
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Fake Digital News</title>
-      <script type="module" crossorigin src="./assets/index-db614d3a.js"></script>
-      <link rel="stylesheet" href="./assets/index-58695f2d.css">
+        <title>Fake News</title>
+      <script type="module" crossorigin src="./assets/index-ba727623.js"></script>
+      <link rel="stylesheet" href="./assets/index-b7eece0e.css">
     </head>
     <body>
         <div id="root"></div>

@@ -1,18 +1,20 @@
-/* default styles */
-
 button {
-    border-radius: 8px;
+    border-radius: 0.5rem;
     border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
+    padding: 0.35rem 0.5rem;
+    font-size: 1rem;
+    font-weight: 400;
     font-family: inherit;
-    background-color: #1a1a1a;
-    cursor: pointer;
+    background-color: var(--clr-almost-white);
+    color: var(--clr-almost-black);
     transition: border-color 0.25s;
+    border: 1px solid var(--clr-almost-black);
+    cursor: pointer;
 }
 button:hover {
-    border-color: #646cff;
+    color: var(--clr-almost-white);
+    background-color: var(--clr-almost-black);
+    border-color: var(--clr-almost-white);
 }
 button:focus,
 button:focus-visible {
@@ -20,6 +22,7 @@ button:focus-visible {
 }
 
 .header {
+    margin-bottom: 0.5rem;
     padding: 0.5rem;
     border-bottom: 1px solid var(--clr-almost-white);
 }
@@ -34,6 +37,7 @@ button:focus-visible {
 }
 
 .header_title h1 {
+    padding-top: 1rem;
     font-size: 2rem;
     line-height: 2rem;
     font-weight: 700;
@@ -44,7 +48,7 @@ button:focus-visible {
 .header_title a {
     margin: 0;
     text-align: right;
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-style: italic;
     color: inherit;
 }
@@ -60,9 +64,9 @@ button:focus-visible {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-style: italic;
-    color: var(--clr-gray);
+    color: var(--clr-almost-white);
 }
 
 /* .recycle-bin-list li {
@@ -73,9 +77,52 @@ button:focus-visible {
     text-align: left;
 } */
 
-.form-new-blog {
+.form-new-article {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.list-blog-articles {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+}
+
+.blog-article {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid var(--clr-almost-white);
+    background-color: var(--clr-almost-white);
+    color: var(--clr-almost-black);
+    border-radius: 0.5rem;
+    width: 100%;
+}
+
+.blog-article_source {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-style: italic;
+}
+
+.footer {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border-top: 1px solid var(--clr-almost-white);
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    gap: 1rem;
+}
+
+.footer_new-article {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }

@@ -188,7 +188,7 @@ function App() {
                         isVisible={isFormVisible}
                         onClose={() => setIsFormVisible(false)}
                     >
-                        <form className="form-new-blog">
+                        <form className="form-new-article">
                             <InputField
                                 type="text"
                                 placeholder="Type Your article title here"
@@ -231,7 +231,7 @@ function App() {
                 </div>
             )}
 
-            <ul className="blog-articles-list">
+            <ul className="list-blog-articles">
                 {blogArticleIds &&
                     blogArticleIds
                         .filter((id) => !blogArticlesById[id].completed)
@@ -247,14 +247,29 @@ function App() {
                         ))}
             </ul>
 
-            <h2>Would you like to share your story?</h2>
-            <button type="submit" onClick={handleNewArticleEntry}>
-                Contribute
-            </button>
-
-            <button type="submit" onClick={handleDisplayRecycleBin}>
-                Display Recycle Bin
-            </button>
+            <div className="footer">
+                <div className="footer_new-article">
+                    <h3>Would you like to share your story?</h3>
+                    <button type="submit" onClick={handleNewArticleEntry}>
+                        Create
+                    </button>
+                </div>
+                <button type="submit" onClick={handleDisplayRecycleBin}>
+                    Display Hidden Articles
+                </button>
+                <div className="footer_agreement">
+                    <h3>Two-Point Agreement</h3>
+                    <p>Fake News readers and staff:</p>
+                    <p>
+                        1) agree that they do not agree with the content and
+                        form of some published materials;
+                    </p>
+                    <p>
+                        2) agree that such materials can and should appear here
+                        for the sake of completeness.
+                    </p>
+                </div>
+            </div>
         </>
     );
 }

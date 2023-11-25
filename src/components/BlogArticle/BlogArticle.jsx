@@ -22,17 +22,23 @@ function BlogArticle({ blogArticle, onToggle, onDelete }) {
     // }).format(dateObject);
 
     return (
-        <li>
-            {" "}
-            <p>{blogArticle.title}</p>
+        <li className="blog-article">
+            <h3>{blogArticle.title}</h3>
             <p>{blogArticle.body}</p>
-            <p>{blogArticle.source}</p>
-            <p>{date}</p>
-            <input
-                type="checkbox"
-                checked={blogArticle.completed}
-                onChange={onToggle}
-            />
+            <div className="blog-article_source">
+                <p>by {blogArticle.source}</p>
+                <p>{date}</p>
+            </div>
+            {/* <label>
+                <input
+                    type="checkbox"
+                    name="hidden"
+                    checked={blogArticle.completed}
+                    onChange={onToggle}
+                />
+                Hide article
+            </label> */}
+            <button onClick={onToggle}>Hide article</button>
             <button onClick={onDelete}>Delete</button>
         </li>
     );

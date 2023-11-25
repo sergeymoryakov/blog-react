@@ -33,6 +33,13 @@ body {
     /* align-items: center; */
     /* gap: 1rem; */
     /* padding: 1rem; */
-    border: 1px solid var(--clr-almost-white);
+    /* border: 1px solid var(--clr-almost-white); */
     border-radius: 0.5rem;
+}
+
+h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.2rem;
+    /* color: var(--clr-almost-white); */
 }
