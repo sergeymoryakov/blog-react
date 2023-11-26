@@ -2,9 +2,15 @@
 .body-input,
 .source-input {
     width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--clr-almost-white);
+    background-color: var(--clr-almost-white);
+    color: var(--clr-almost-black);
+    font-family: inherit;
+    border-radius: 0.5rem;
 }
 
-.title-input {
+/* .title-input {
     border: 1px solid #ccc;
 }
 
@@ -14,4 +20,4 @@
 
 .source-input {
     border: 1px solid #ccc;
-}
+} */

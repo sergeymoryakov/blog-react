@@ -195,10 +195,11 @@ function App() {
 
             {isAdminMode && (
                 <>
+                    <h3>Add New Article</h3>
                     <form className="form-new-article">
                         <InputField
                             type="text"
-                            placeholder="Type Your article title here"
+                            placeholder="Type article title (10 to 250 characters)"
                             value={blogArticleTitle}
                             onChange={(event) =>
                                 handleInputBlogArticleTitle(event)
@@ -210,7 +211,7 @@ function App() {
 
                         <InputField
                             type="textarea"
-                            placeholder="Type Your article text here"
+                            placeholder="Type article text here (100 to 2,500 characters)"
                             value={blogArticleBody}
                             onChange={(event) =>
                                 handleInputBlogArticleBody(event)
@@ -222,7 +223,7 @@ function App() {
 
                         <InputField
                             type="text"
-                            placeholder="Type Your Name (Name S.) here"
+                            placeholder="Type your name here (3 to 50 characters)"
                             value={blogArticleSource}
                             onChange={(event) =>
                                 handleInputBlogArticleSource(event)
@@ -231,9 +232,10 @@ function App() {
                         />
 
                         <button type="submit" onClick={handleAddNewArticle}>
-                            Add New Article
+                            Add Article
                         </button>
                     </form>
+                    <h3>Articles Administration</h3>
                     <ul className="list-blog-articles">
                         {blogArticleIds &&
                             blogArticleIds

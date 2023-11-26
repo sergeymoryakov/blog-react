@@ -25,10 +25,12 @@ function BlogArticle({ blogArticle, onToggle, onDelete }) {
         <li className="blog-article">
             <h3>{blogArticle.title}</h3>
             <p>{blogArticle.body}</p>
-            <div className="blog-article_source">
-                <p>by {blogArticle.source}</p>
-                <p>{date}</p>
-            </div>
+            <p className="blog-article_post-by">
+                Posted by {blogArticle.source}
+            </p>
+            <p className="blog-article_date">{date}</p>
+            {/* <div className="blog-article_source">
+            </div> */}
         </li>
     );
 }
