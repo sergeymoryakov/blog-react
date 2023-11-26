@@ -10,6 +10,13 @@
     border-radius: 0.5rem;
 }
 
+.title-input_error,
+.body-input_error,
+.source-input_error {
+    color: var(--clr-alert);
+    border: 1px solid var(--clr-alert);
+}
+
 /* .title-input {
     border: 1px solid #ccc;
 }

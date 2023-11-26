@@ -1,3 +1,4 @@
+import React from "react";
 import "./FormModal.css";
 
 function FormModal({ isVisible, onClose, children }) {

@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import "./App.css";
 import {
@@ -15,21 +16,46 @@ import { COLLECTION_NAME } from "./config/firebase-config";
 import InputField from "./components/InputField/InputField";
 import BlogArticle from "./components/BlogArticle/BlogArticle";
 import BlogArticleAdmin from "./components/BlogArticle/BlogArticleAdmin";
+// import SpanError from "./components/SpanError/SpanError";
+
+const ERROR_TITLE_LENGTH_MIN = "Title must be at least 10 characters long";
+const ERROR_TITLE_LENGTH_MAX = "Title must be no more than 250 characters";
+const ERROR_BODY_LENGTH_MIN = "Body must be at least 100 characters long";
+const ERROR_BODY_LENGTH_MAX = "Body must be no more than 2,500 characters";
+const ERROR_SOURCE_LENGTH_MIN = "Source must be at least 3 characters long";
+const ERROR_SOURCE_LENGTH_MAX = "Source must be no more than 50 characters";
 
 function App() {
+    const [processLoading, setProcessLoading] = useState(false);
+
+    const [isLoadingError, setIsLoadingError] = useState(false);
+
     const [blogArticleIds, setBlogArticleIds] = useState(null);
 
     const [blogArticlesById, setBlogArticlesById] = useState();
 
-    const [processLoading, setProcessLoading] = useState(false);
-
-    const [isLoadingError, setIsLoadingError] = useState(false);
+    const [isAdminMode, setIsAdminMode] = useState(false);
 
     const [blogArticleTitle, setBlogArticleTitle] = useState("");
     const [blogArticleBody, setBlogArticleBody] = useState("");
     const [blogArticleSource, setBlogArticleSource] = useState("");
 
-    const [isAdminMode, setIsAdminMode] = useState(false);
+    const [titleError, setTitleError] = useState("");
+    const [bodyError, setBodyError] = useState("");
+    const [sourceError, setSourceError] = useState("");
+
+    // const [titleTooShort, setTitleTooShort] = useState(false);
+    // const [titleTooLong, setTitleTooLong] = useState(false);
+    // const [bodyTooShort, setBodyTooShort] = useState(false);
+    // const [bodyTooLong, setBodyTooLong] = useState(false);
+    // const [sourceTooShort, setSourceTooShort] = useState(false);
+    // const [sourceTooLong, setSourceTooLong] = useState(false);
+
+    // useEffect(() => {
+    //     console.log("titleError: ", titleError);
+    //     console.log("bodyError: ", bodyError);
+    //     console.log("sourceError: ", sourceError);
+    // }, [titleError, bodyError, sourceError]);
 
     useEffect(() => {
         setIsLoadingError(false);
@@ -81,16 +107,60 @@ function App() {
 
     // Handling the new blog title input
     function handleInputBlogArticleTitle(event) {
-        setBlogArticleTitle(event.target.value);
+        const { value } = event.target;
+        console.log("Received input: ", value);
+
+        if (value.length < 10) {
+            // setTitleTooShort(true);
+            setTitleError(ERROR_TITLE_LENGTH_MIN);
+        } else if (value.length > 250) {
+            // setTitleTooLong(true);
+            setTitleError(ERROR_TITLE_LENGTH_MAX);
+        } else {
+            // setTitleTooShort(false);
+            // setTitleTooLong(false);
+            setTitleError("");
+        }
+
+        setBlogArticleTitle(value);
     }
 
     // Handling the new blog body text input
     function handleInputBlogArticleBody(event) {
-        setBlogArticleBody(event.target.value);
+        const { value } = event.target;
+        console.log("Received input: ", value);
+
+        if (value.length < 100) {
+            // setBodyTooShort(true);
+            setBodyError(ERROR_BODY_LENGTH_MIN);
+        } else if (value.length > 2500) {
+            // setBodyTooLong(true);
+            setBodyError(ERROR_BODY_LENGTH_MAX);
+        } else {
+            // setBodyTooShort(false);
+            // setBodyTooLong(false);
+            setBodyError("");
+        }
+
+        setBlogArticleBody(value);
     }
 
     // Handling the new blog source input
     function handleInputBlogArticleSource(event) {
+        const { value } = event.target;
+        console.log("Received input: ", value);
+
+        if (value.length < 3) {
+            // setSourceTooShort(true);
+            setSourceError(ERROR_SOURCE_LENGTH_MIN);
+        } else if (value.length > 50) {
+            // setSourceTooLong(true);
+            setSourceError(ERROR_SOURCE_LENGTH_MAX);
+        } else {
+            // setSourceTooShort(false);
+            // setSourceTooLong(false);
+            setSourceError("");
+        }
         setBlogArticleSource(event.target.value);
     }
 
@@ -204,10 +274,11 @@ function App() {
                             onChange={(event) =>
                                 handleInputBlogArticleTitle(event)
                             }
-                            maxLength={250}
+                            // maxLength={250}
                             // required
                             className="title-input"
                         />
+                        <span className="title-input_error">{titleError}</span>
 
                         <InputField
                             type="textarea"
@@ -216,10 +287,11 @@ function App() {
                             onChange={(event) =>
                                 handleInputBlogArticleBody(event)
                             }
-                            maxLength={2500}
+                            // maxLength={2500}
                             // required
                             className="body-input"
                         />
+                        <span className="body-input_error">{bodyError}</span>
 
                         <InputField
                             type="text"
@@ -230,6 +302,9 @@ function App() {
                             }
                             className="source-input"
                         />
+                        <span className="source-input_error">
+                            {sourceError}
+                        </span>
 
                         <button type="submit" onClick={handleAddNewArticle}>
                             Add Article

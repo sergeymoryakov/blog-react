@@ -1,3 +1,4 @@
+import React from "react";
 import "./InputField.css";
 
 function InputField({
@@ -5,7 +6,7 @@ function InputField({
     placeholder,
     value,
     onChange,
-    maxLength,
+    // maxLength,
     // required,
     className,
 }) {
@@ -15,7 +16,7 @@ function InputField({
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
-                maxLength={maxLength}
+                // maxLength={maxLength}
                 // required={required}
                 className={className}
             />
@@ -28,7 +29,7 @@ function InputField({
             placeholder={placeholder}
             value={value}
             onChange={onChange}
-            maxLength={maxLength}
+            // maxLength={maxLength}
             // required={required}
             className={className}
         />
