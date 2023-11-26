@@ -26,6 +26,8 @@ const ERROR_SOURCE_LENGTH_MIN = "Source must be at least 3 characters long";
 const ERROR_SOURCE_LENGTH_MAX = "Source must be no more than 50 characters";
 
 function App() {
+    const [currentDateTime, setCurrentDateTime] = useState(new Date());
+
     const [processLoading, setProcessLoading] = useState(false);
 
     const [isLoadingError, setIsLoadingError] = useState(false);
@@ -44,18 +46,14 @@ function App() {
     const [bodyError, setBodyError] = useState("");
     const [sourceError, setSourceError] = useState("");
 
-    // const [titleTooShort, setTitleTooShort] = useState(false);
-    // const [titleTooLong, setTitleTooLong] = useState(false);
-    // const [bodyTooShort, setBodyTooShort] = useState(false);
-    // const [bodyTooLong, setBodyTooLong] = useState(false);
-    // const [sourceTooShort, setSourceTooShort] = useState(false);
-    // const [sourceTooLong, setSourceTooLong] = useState(false);
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentDateTime(new Date());
+        }, 1000); // 1000 ms = 1 second
 
-    // useEffect(() => {
-    //     console.log("titleError: ", titleError);
-    //     console.log("bodyError: ", bodyError);
-    //     console.log("sourceError: ", sourceError);
-    // }, [titleError, bodyError, sourceError]);
+        // this will clear Timeout
+        return () => clearInterval(timer);
+    }, []);
 
     useEffect(() => {
         setIsLoadingError(false);
@@ -226,8 +224,8 @@ function App() {
                     </a>
                 </div>
                 <div className="header_date">
-                    <p>date now</p>
-                    <p>time now</p>
+                    <p>{currentDateTime.toLocaleDateString()}</p>
+                    <p>{currentDateTime.toLocaleTimeString()}</p>
                 </div>
             </div>
 
