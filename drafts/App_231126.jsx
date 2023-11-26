@@ -1,3 +1,8 @@
+// This version of the file as of 2023-11-26 includes the following:
+// - the ability to access the admin mode
+// - the ability to add new articles in popup/modal form
+// - the ability to display hidden articles in popup/modal form
+
 import { useEffect, useState } from "react";
 import "./App.css";
 import {
@@ -14,7 +19,8 @@ import { COLLECTION_NAME } from "./config/firebase-config";
 
 import InputField from "./components/InputField/InputField";
 import BlogArticle from "./components/BlogArticle/BlogArticle";
-import BlogArticleAdmin from "./components/BlogArticle/BlogArticleAdmin";
+import BlogArticleActive from "./components/BlogArticle/BlogArticleActive";
+import FormModal from "./components/FormModal/FormModal";
 
 function App() {
     const [blogArticleIds, setBlogArticleIds] = useState(null);
@@ -30,6 +36,8 @@ function App() {
     const [blogArticleSource, setBlogArticleSource] = useState("");
 
     const [isAdminMode, setIsAdminMode] = useState(false);
+    const [isFormVisible, setIsFormVisible] = useState(false);
+    const [isHiddenVisible, setIsHiddenVisible] = useState(false);
 
     useEffect(() => {
         setIsLoadingError(false);
@@ -51,9 +59,6 @@ function App() {
 
     function handleDeleteBlogArticle(id) {
         console.log("Received command to delete element with ID: ", id);
-        if (!window.confirm("Are you sure you want to delete this article?")) {
-            return;
-        }
         setBlogArticleIds(blogArticleIds.filter((itemId) => itemId !== id));
         deleteItemFromFireStore(id);
     }
@@ -97,46 +102,37 @@ function App() {
     function handleAddNewArticle(event) {
         event.preventDefault(); // prevent the form from submitting
 
-        // check if the input fields are empty:
-        if (
-            blogArticleTitle.trim() === "" ||
-            blogArticleBody.trim() === "" ||
-            blogArticleSource.trim() === ""
-        ) {
-            alert("Please fill in all the fields");
-            return;
-        }
-
-        // generate a new ID:
         const id = uuidv4();
-
         // add the current date and time:
         const date = new Date();
         const blogArticle = {
-            title: blogArticleTitle.trim(),
-            body: blogArticleBody.trim(),
-            source: blogArticleSource.trim(),
+            title: blogArticleTitle,
+            body: blogArticleBody,
+            source: blogArticleSource,
             id,
             completed: false,
             date,
         };
 
-        // add the new blog article to the list of blog articles:
         setBlogArticlesById({
             ...blogArticlesById,
             [blogArticle.id]: blogArticle,
         });
 
-        // add the new blog article to the list of blog article IDs:
         setBlogArticleIds([blogArticle.id, ...blogArticleIds]);
 
-        // add the new blog article to the Firestore:
         addItemToFirestore(blogArticle);
 
-        // reset the input fields:
-        setBlogArticleTitle("");
-        setBlogArticleBody("");
-        setBlogArticleSource("");
+        // Reset the input fields to close the modal form
+        setIsFormVisible(false);
+    }
+
+    function handleNewArticleEntry() {
+        setIsFormVisible(true);
+    }
+
+    function handleDisplayHiddenArticles() {
+        setIsHiddenVisible(true);
     }
 
     function toggleAdminMode() {
@@ -148,6 +144,7 @@ function App() {
             <div className="header">
                 <div className="header_title">
                     <h1>Fake News</h1>
+                    {/* <p>by SEPPO.digital</p> */}
                     <a
                         href="https://sergeymoryakov.github.io/seppo-digital/"
                         target="_blank"
@@ -164,6 +161,55 @@ function App() {
             {isLoadingError && <p>Ooops... Loading Error</p>}
 
             {processLoading && <p>Loading Action Items...</p>}
+
+            {isFormVisible && (
+                <div className="form-modal">
+                    <FormModal
+                        isVisible={isFormVisible}
+                        onClose={() => setIsFormVisible(false)}
+                    >
+                        <form className="form-new-article">
+                            <InputField
+                                type="text"
+                                placeholder="Type Your article title here"
+                                value={blogArticleTitle}
+                                onChange={(event) =>
+                                    handleInputBlogArticleTitle(event)
+                                }
+                                maxLength={250}
+                                required
+                                className="title-input"
+                            />
+
+                            <InputField
+                                type="textarea"
+                                placeholder="Type Your article text here"
+                                value={blogArticleBody}
+                                onChange={(event) =>
+                                    handleInputBlogArticleBody(event)
+                                }
+                                maxLength={3000}
+                                required
+                                className="body-input"
+                            />
+
+                            <InputField
+                                type="text"
+                                placeholder="Type Your Name (Name S.) here"
+                                value={blogArticleSource}
+                                onChange={(event) =>
+                                    handleInputBlogArticleSource(event)
+                                }
+                                className="source-input"
+                            />
+
+                            <button type="submit" onClick={handleAddNewArticle}>
+                                Add New Article
+                            </button>
+                        </form>
+                    </FormModal>
+                </div>
+            )}
 
             {!isAdminMode && (
                 <>
@@ -184,7 +230,7 @@ function App() {
                                     />
                                 ))}
                     </ul>
-                    <div className="admin-mode-entry">
+                    <div>
                         <h3>Would you like to share your story?</h3>
                         <button onClick={toggleAdminMode}>
                             Access Admin Mode
@@ -195,51 +241,12 @@ function App() {
 
             {isAdminMode && (
                 <>
-                    <form className="form-new-article">
-                        <InputField
-                            type="text"
-                            placeholder="Type Your article title here"
-                            value={blogArticleTitle}
-                            onChange={(event) =>
-                                handleInputBlogArticleTitle(event)
-                            }
-                            maxLength={250}
-                            // required
-                            className="title-input"
-                        />
-
-                        <InputField
-                            type="textarea"
-                            placeholder="Type Your article text here"
-                            value={blogArticleBody}
-                            onChange={(event) =>
-                                handleInputBlogArticleBody(event)
-                            }
-                            maxLength={2500}
-                            // required
-                            className="body-input"
-                        />
-
-                        <InputField
-                            type="text"
-                            placeholder="Type Your Name (Name S.) here"
-                            value={blogArticleSource}
-                            onChange={(event) =>
-                                handleInputBlogArticleSource(event)
-                            }
-                            className="source-input"
-                        />
-
-                        <button type="submit" onClick={handleAddNewArticle}>
-                            Add New Article
-                        </button>
-                    </form>
                     <ul className="list-blog-articles">
                         {blogArticleIds &&
                             blogArticleIds
-                                // .filter((id) => !blogArticlesById[id].completed)
+                                .filter((id) => !blogArticlesById[id].completed)
                                 .map((id) => (
-                                    <BlogArticleAdmin
+                                    <BlogArticleActive
                                         key={id}
                                         blogArticle={blogArticlesById[id]}
                                         onToggle={() =>
@@ -251,7 +258,7 @@ function App() {
                                     />
                                 ))}
                     </ul>
-                    <div className="user-mode-entry">
+                    <div>
                         <h3>Back to User mode?</h3>
                         <button onClick={toggleAdminMode}>
                             Back to User Mode
@@ -259,6 +266,44 @@ function App() {
                     </div>
                 </>
             )}
+
+            {isHiddenVisible && (
+                <div className="recycle-modal">
+                    <FormModal
+                        isVisible={isHiddenVisible}
+                        onClose={() => setIsHiddenVisible(false)}
+                    >
+                        <ul className="recycle-bin-list">
+                            {blogArticleIds &&
+                                blogArticleIds
+                                    .filter(
+                                        (id) => blogArticlesById[id].completed
+                                    )
+                                    .map((id) => (
+                                        <BlogArticle
+                                            key={id}
+                                            blogArticle={blogArticlesById[id]}
+                                            onToggle={() =>
+                                                handleToggleCheckboxBlogArticle(
+                                                    id
+                                                )
+                                            }
+                                            onDelete={() =>
+                                                handleDeleteBlogArticle(id)
+                                            }
+                                        />
+                                    ))}
+                        </ul>
+                    </FormModal>
+                </div>
+            )}
+
+            <button type="submit" onClick={handleNewArticleEntry}>
+                Add New Article
+            </button>
+            <button type="submit" onClick={handleDisplayHiddenArticles}>
+                Display Hidden Articles
+            </button>
 
             <div className="footer">
                 <div className="footer_agreement">

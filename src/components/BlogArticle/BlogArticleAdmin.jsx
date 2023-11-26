@@ -1,4 +1,6 @@
+import "./BlogArticleAdmin.css";
 import { format } from "date-fns";
+import deleteIcon from "../../assets/img_delete.png";
 
 function BlogArticle({ blogArticle, onToggle, onDelete }) {
     const dateObject =
@@ -29,17 +31,26 @@ function BlogArticle({ blogArticle, onToggle, onDelete }) {
                 <p>by {blogArticle.source}</p>
                 <p>{date}</p>
             </div>
-            {/* <label>
-                <input
-                    type="checkbox"
-                    name="hidden"
-                    checked={blogArticle.completed}
-                    onChange={onToggle}
-                />
-                Hide article
-            </label> */}
-            <button onClick={onToggle}>Hide article</button>
-            {/* <button onClick={onDelete}>Delete</button> */}
+            <div className="blog-article_actions">
+                <label>
+                    <input
+                        className="blog-article_actions_checkbox"
+                        type="checkbox"
+                        name="hidden"
+                        checked={blogArticle.completed}
+                        onChange={onToggle}
+                    />
+                    - Hide article
+                </label>
+                {/* <button onClick={onToggle}>Hide article</button> */}
+                <button className="delete-btn" onClick={onDelete}>
+                    <img
+                        className="delete-btn_img"
+                        src={deleteIcon}
+                        alt="Delete"
+                    />
+                </button>
+            </div>
         </li>
     );
 }

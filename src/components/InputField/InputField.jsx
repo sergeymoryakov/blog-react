@@ -6,7 +6,7 @@ function InputField({
     value,
     onChange,
     maxLength,
-    required,
+    // required,
     className,
 }) {
     if (type === "textarea") {
@@ -16,7 +16,7 @@ function InputField({
                 value={value}
                 onChange={onChange}
                 maxLength={maxLength}
-                required={required}
+                // required={required}
                 className={className}
             />
         );
@@ -29,7 +29,7 @@ function InputField({
             value={value}
             onChange={onChange}
             maxLength={maxLength}
-            required={required}
+            // required={required}
             className={className}
         />
     );
