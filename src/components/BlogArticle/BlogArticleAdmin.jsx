@@ -1,5 +1,4 @@
 import React from "react";
-import "./BlogArticleAdmin.css";
 import { format } from "date-fns";
 import deleteIcon from "../../assets/img_delete.png";
 

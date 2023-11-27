@@ -11,9 +11,6 @@ export function getNormActionItems(actionItemsList) {
 }
 
 export function getNormBlogArticles(blogArticles) {
-    // Display to console a message that the function has been called
-    console.log("getNormBlogArticles() has been called.");
-
     const ids = [];
     const byId = {};
 
@@ -21,6 +18,11 @@ export function getNormBlogArticles(blogArticles) {
         ids.push(item.id);
         byId[item.id] = item;
     });
+
+    // for tbs and debugging
+    // console.log("blogArticles have been normalized:");
+    // console.log("ids:", ids);
+    // console.log("byId:", byId);
 
     return [ids, byId];
 }

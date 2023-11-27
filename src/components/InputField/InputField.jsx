@@ -1,5 +1,4 @@
 import React from "react";
-import "./InputField.css";
 
 function InputField({ type, placeholder, value, onChange, className }) {
     if (type === "textarea") {

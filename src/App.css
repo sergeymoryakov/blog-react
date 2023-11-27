@@ -53,6 +53,7 @@
 /* header section ends*/
 
 /* articles list section */
+/* NOTE: section styling is similar to admin articles list section  */
 /* articles list section ends */
 
 /* admin new input section */
@@ -94,9 +95,9 @@
     text-align: right;
     color: var(--clr-alert);
 }
-
 /* admin new input section ends */
 
+/* admin articles list section */
 .list-blog-articles {
     margin-top: 0.5rem;
     display: flex;
@@ -167,6 +168,8 @@
     border: 1px solid var(--clr-almost-black);
 }
 
+/* admin articles list section ends */
+
 .admin-mode-entry,
 .user-mode-entry {
     margin-top: 1rem;
@@ -175,12 +178,21 @@
     gap: 0.5rem;
 }
 
+/* footer section */
 .footer {
     margin-top: 0.5rem;
     padding: 0.5rem 0;
-    border-top: 1px solid var(--clr-almost-white);
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
     gap: 1rem;
+    border-top: 1px solid var(--clr-almost-white);
 }
+.footer h3 {
+    font-size: 1rem;
+}
+
+.footer p {
+    font-size: 0.8rem;
+    font-style: italic;
+}
+/* footer section ends */
