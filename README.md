@@ -1,9 +1,18 @@
-Fake News Engine prototype to practice React.JS
+# Fake News Blog
 
-You may easily add your own story by entering Admin Mode.
+## Introduction
 
-Creators keep their right to modify or delete unupropriate content is required.
+This project is a Fake News blog built with [Vite](https://vitejs.dev/), [React.JS](https://react.dev/), and [Google Firebase](https://firebase.google.com/). It allows users to view a list of Fake News articles and administrators to manage these articles.
 
-Design ideas: https://thetruestory.news/en
+## Features
 
-Developed by Seppo.digital
+-   **User Page**: Displays a list of Fake News articles for users to read.
+-   **Admin Page**: Allows administrators to add new articles, hide existing ones, or delete them.
+
+## Design Inspiration
+
+The design of this project was inspired by [TheTrueStory](https://thetruestory.news/en).
+
+## Developed By
+
+This project was developed by [SEPPO.digital](https://sergeymoryakov.github.io/seppo-digital/).
