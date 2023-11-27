@@ -1,4 +1,4 @@
-.title-input,
+/* .title-input,
 .body-input,
 .source-input {
     width: 100%;
@@ -10,21 +10,7 @@
     border-radius: 0.5rem;
 }
 
-.title-input_error,
-.body-input_error,
-.source-input_error {
+.input-error {
     color: var(--clr-alert);
     border: 1px solid var(--clr-alert);
-}
-
-/* .title-input {
-    border: 1px solid #ccc;
-}
-
-.body-input {
-    border: 1px solid #ccc;
-}
-
-.source-input {
-    border: 1px solid #ccc;
 } */

@@ -16,8 +16,14 @@ import { COLLECTION_NAME } from "./config/firebase-config";
 import InputField from "./components/InputField/InputField";
 import BlogArticle from "./components/BlogArticle/BlogArticle";
 import BlogArticleAdmin from "./components/BlogArticle/BlogArticleAdmin";
-// import SpanError from "./components/SpanError/SpanError";
+import SpanError from "./components/SpanError/SpanError";
 
+const LIMIT_TITLE_MIN = 10;
+const LIMIT_TITLE_MAX = 250;
+const LIMIT_BODY_MIN = 100;
+const LIMIT_BODY_MAX = 2500;
+const LIMIT_SOURCE_MIN = 3;
+const LIMIT_SOURCE_MAX = 50;
 const ERROR_TITLE_LENGTH_MIN = "Title must be at least 10 characters long";
 const ERROR_TITLE_LENGTH_MAX = "Title must be no more than 250 characters";
 const ERROR_BODY_LENGTH_MIN = "Body must be at least 100 characters long";
@@ -108,15 +114,11 @@ function App() {
         const { value } = event.target;
         console.log("Received input: ", value);
 
-        if (value.length < 10) {
-            // setTitleTooShort(true);
+        if (value.length < LIMIT_TITLE_MIN) {
             setTitleError(ERROR_TITLE_LENGTH_MIN);
-        } else if (value.length > 250) {
-            // setTitleTooLong(true);
+        } else if (value.length > LIMIT_TITLE_MAX) {
             setTitleError(ERROR_TITLE_LENGTH_MAX);
         } else {
-            // setTitleTooShort(false);
-            // setTitleTooLong(false);
             setTitleError("");
         }
 
@@ -128,15 +130,11 @@ function App() {
         const { value } = event.target;
         console.log("Received input: ", value);
 
-        if (value.length < 100) {
-            // setBodyTooShort(true);
+        if (value.length < LIMIT_BODY_MIN) {
             setBodyError(ERROR_BODY_LENGTH_MIN);
-        } else if (value.length > 2500) {
-            // setBodyTooLong(true);
+        } else if (value.length > LIMIT_BODY_MAX) {
             setBodyError(ERROR_BODY_LENGTH_MAX);
         } else {
-            // setBodyTooShort(false);
-            // setBodyTooLong(false);
             setBodyError("");
         }
 
@@ -148,15 +146,11 @@ function App() {
         const { value } = event.target;
         console.log("Received input: ", value);
 
-        if (value.length < 3) {
-            // setSourceTooShort(true);
+        if (value.length < LIMIT_SOURCE_MIN) {
             setSourceError(ERROR_SOURCE_LENGTH_MIN);
-        } else if (value.length > 50) {
-            // setSourceTooLong(true);
+        } else if (value.length > LIMIT_SOURCE_MAX) {
             setSourceError(ERROR_SOURCE_LENGTH_MAX);
         } else {
-            // setSourceTooShort(false);
-            // setSourceTooLong(false);
             setSourceError("");
         }
         setBlogArticleSource(event.target.value);
@@ -213,6 +207,7 @@ function App() {
 
     return (
         <>
+            {/* header section */}
             <div className="header">
                 <div className="header_title">
                     <h1>Fake News</h1>
@@ -229,10 +224,12 @@ function App() {
                 </div>
             </div>
 
+            {/* spinners and alerts section */}
             {isLoadingError && <p>Ooops... Loading Error</p>}
 
             {processLoading && <p>Loading Action Items...</p>}
 
+            {/* articles list section */}
             {!isAdminMode && (
                 <>
                     <ul className="list-blog-articles">
@@ -263,46 +260,56 @@ function App() {
 
             {isAdminMode && (
                 <>
+                    {/* admin new input section */}
                     <h3>Add New Article</h3>
                     <form className="form-new-article">
-                        <InputField
-                            type="text"
-                            placeholder="Type article title (10 to 250 characters)"
-                            value={blogArticleTitle}
-                            onChange={(event) =>
-                                handleInputBlogArticleTitle(event)
-                            }
-                            // maxLength={250}
-                            // required
-                            className="title-input"
-                        />
-                        <span className="title-input_error">{titleError}</span>
+                        <div className="input-wrapper">
+                            <InputField
+                                type="text"
+                                placeholder="Type article title (10 to 250 characters)"
+                                value={blogArticleTitle}
+                                onChange={(event) =>
+                                    handleInputBlogArticleTitle(event)
+                                }
+                                className="input-field"
+                            />
+                            <SpanError
+                                className="input-error"
+                                errorMessage={titleError}
+                            ></SpanError>
+                        </div>
 
-                        <InputField
-                            type="textarea"
-                            placeholder="Type article text here (100 to 2,500 characters)"
-                            value={blogArticleBody}
-                            onChange={(event) =>
-                                handleInputBlogArticleBody(event)
-                            }
-                            // maxLength={2500}
-                            // required
-                            className="body-input"
-                        />
-                        <span className="body-input_error">{bodyError}</span>
+                        <div className="input-wrapper">
+                            <InputField
+                                type="textarea"
+                                placeholder="Type article text here (100 to 2,500 characters)"
+                                value={blogArticleBody}
+                                onChange={(event) =>
+                                    handleInputBlogArticleBody(event)
+                                }
+                                className="input-field"
+                            />
+                            <SpanError
+                                className="input-error"
+                                errorMessage={bodyError}
+                            ></SpanError>
+                        </div>
 
-                        <InputField
-                            type="text"
-                            placeholder="Type your name here (3 to 50 characters)"
-                            value={blogArticleSource}
-                            onChange={(event) =>
-                                handleInputBlogArticleSource(event)
-                            }
-                            className="source-input"
-                        />
-                        <span className="source-input_error">
-                            {sourceError}
-                        </span>
+                        <div className="input-wrapper">
+                            <InputField
+                                type="text"
+                                placeholder="Type your name here (3 to 50 characters)"
+                                value={blogArticleSource}
+                                onChange={(event) =>
+                                    handleInputBlogArticleSource(event)
+                                }
+                                className="input-field"
+                            />
+                            <SpanError
+                                className="input-error"
+                                errorMessage={sourceError}
+                            ></SpanError>
+                        </div>
 
                         <button type="submit" onClick={handleAddNewArticle}>
                             Add Article

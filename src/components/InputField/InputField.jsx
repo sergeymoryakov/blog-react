@@ -1,23 +1,13 @@
 import React from "react";
 import "./InputField.css";
 
-function InputField({
-    type,
-    placeholder,
-    value,
-    onChange,
-    // maxLength,
-    // required,
-    className,
-}) {
+function InputField({ type, placeholder, value, onChange, className }) {
     if (type === "textarea") {
         return (
             <textarea
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
-                // maxLength={maxLength}
-                // required={required}
                 className={className}
             />
         );
@@ -29,8 +19,6 @@ function InputField({
             placeholder={placeholder}
             value={value}
             onChange={onChange}
-            // maxLength={maxLength}
-            // required={required}
             className={className}
         />
     );

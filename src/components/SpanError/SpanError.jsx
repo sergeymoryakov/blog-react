@@ -1,7 +1,7 @@
 import React from "react";
 
-function SpanError({ functionName }) {
-    return <span>{functionName}</span>;
+function SpanError({ errorMessage, className }) {
+    return <span className={className}>{errorMessage}</span>;
 }
 
 export default SpanError;

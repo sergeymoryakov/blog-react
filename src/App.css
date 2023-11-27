@@ -1,27 +1,4 @@
-button {
-    width: 100%;
-    border-radius: 0.5rem;
-    border: 1px solid transparent;
-    padding: 0.35rem 0.5rem;
-    font-size: 1rem;
-    font-weight: 400;
-    font-family: inherit;
-    background-color: var(--clr-almost-white);
-    color: var(--clr-almost-black);
-    transition: border-color 0.25s;
-    border: 1px solid var(--clr-almost-black);
-    cursor: pointer;
-}
-button:hover {
-    color: var(--clr-almost-white);
-    background-color: var(--clr-almost-black);
-    border-color: var(--clr-almost-white);
-}
-button:focus,
-button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-}
-
+/* header section */
 .header {
     margin-bottom: 0.5rem;
     padding: 0.5rem;
@@ -65,23 +42,20 @@ button:focus-visible {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    font-size: 1rem;
-    font-style: italic;
     color: var(--clr-almost-white);
 }
 
 .header_date p {
     margin: 0;
+    font-size: 0.8rem;
+    font-style: italic;
 }
+/* header section ends*/
 
-/* .recycle-bin-list li {
-    text-align: left;
-}
+/* articles list section */
+/* articles list section ends */
 
-.blog-articles-list li {
-    text-align: left;
-} */
-
+/* admin new input section */
 .form-new-article {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
@@ -89,9 +63,39 @@ button:focus-visible {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1rem;
     border-bottom: 1px solid var(--clr-almost-white);
 }
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-field {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--clr-almost-white);
+    background-color: var(--clr-almost-white);
+    color: var(--clr-almost-black);
+    font-family: inherit;
+    border-radius: 0.5rem;
+}
+
+.input-error {
+    width: 100%;
+    position: absolute;
+    bottom: -0.85rem;
+    box-sizing: border-box;
+    font-size: 0.75rem;
+    font-style: italic;
+    text-align: right;
+    color: var(--clr-alert);
+}
+
+/* admin new input section ends */
 
 .list-blog-articles {
     margin-top: 0.5rem;
@@ -122,16 +126,9 @@ button:focus-visible {
 }
 
 .blog-article_date {
+    font-size: 0.8rem;
     font-style: italic;
     color: var(--clr-enter);
-}
-
-.blog-article_source {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    font-style: italic;
-    line-height: 0.5rem;
 }
 
 .blog-article_actions {

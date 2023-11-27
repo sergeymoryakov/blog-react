@@ -26,27 +26,44 @@ body {
 
 #root {
     margin: 0 auto;
-    /* min-height: 100svh; */
     max-width: 540px;
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* align-items: center; */
-    /* gap: 1rem; */
-    /* padding: 1rem; */
-    /* border: 1px solid var(--clr-almost-white); */
     border-radius: 0.5rem;
 }
 
+/* general styles */
 h3 {
     font-size: 1.2rem;
     font-weight: 700;
     line-height: 1.2rem;
-    /* color: var(--clr-almost-white); */
 }
 
 p {
     margin: 0.5rem 0;
     font-size: 1rem;
     font-weight: 400;
-    /* color: var(--clr-almost-white); */
 }
+
+button {
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid transparent;
+    padding: 0.35rem 0.5rem;
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: inherit;
+    background-color: var(--clr-almost-white);
+    color: var(--clr-almost-black);
+    transition: border-color 0.25s;
+    border: 1px solid var(--clr-almost-black);
+    cursor: pointer;
+}
+button:hover {
+    color: var(--clr-almost-white);
+    background-color: var(--clr-almost-black);
+    border-color: var(--clr-almost-white);
+}
+button:focus,
+button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+}
+/* general styles end */
