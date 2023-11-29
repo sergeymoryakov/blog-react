@@ -16,6 +16,7 @@ import InputField from "./components/InputField/InputField";
 import BlogArticle from "./components/BlogArticle/BlogArticle";
 import BlogArticleAdmin from "./components/BlogArticle/BlogArticleAdmin";
 import SpanError from "./components/SpanError/SpanError";
+import CurrentDateTime from "./components/CurrentDateTime/CurrentDateTime";
 
 import {
     LIMIT_TITLE_MIN,
@@ -32,11 +33,9 @@ import {
     ERROR_SOURCE_LENGTH_MAX,
 } from "./config/constants";
 
-import "./App.css";
-
 function App() {
     // initialize the state variables:
-    const [currentDateTime, setCurrentDateTime] = useState(new Date());
+    // const [currentDateTime, setCurrentDateTime] = useState(new Date());
     const [processLoading, setProcessLoading] = useState(false);
     const [isLoadingError, setIsLoadingError] = useState(false);
 
@@ -54,14 +53,14 @@ function App() {
     const [sourceError, setSourceError] = useState("");
 
     // initialize the side effects for current time:
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentDateTime(new Date());
-        }, 1000); // 1000 ms = 1 second
+    // useEffect(() => {
+    //     const timer = setInterval(() => {
+    //         setCurrentDateTime(new Date());
+    //     }, 1000); // 1000 ms = 1 second
 
-        // this will clear Timeout
-        return () => clearInterval(timer);
-    }, []);
+    //     // this will clear Timeout
+    //     return () => clearInterval(timer);
+    // }, []);
 
     // initialize the side effects for loading the blog articles from Firestore:
     useEffect(() => {
@@ -222,8 +221,7 @@ function App() {
                     </a>
                 </div>
                 <div className="header_date">
-                    <p>{currentDateTime.toLocaleDateString()}</p>
-                    <p>{currentDateTime.toLocaleTimeString()}</p>
+                    <CurrentDateTime></CurrentDateTime>
                 </div>
             </div>
 
